@@ -2,42 +2,32 @@ import { useEffect, useState } from "react";
 import OTP from "./OTP";
 import CountDown from "./CountDown";
 import useGetContextData from "../../hooks/useGetContextData";
+import toast from "react-hot-toast";
+import SendFiles from "./MainSend/SendFiles";
 
 const MainSendPart = () => {
   const context = useGetContextData();
   const {otpFromServer, setOtpFromServer} = context;
 
   const [isLoading, setIsLoading] = useState<Boolean>(false);
-  const [isCallingForNewOtp, setIsCallingForNewOtp] = useState<Boolean>(false)
+  const [isCallingForNewOtp, setIsCallingForNewOtp] = useState<Boolean>(false);
+  const [isConnected, setIsConnected] = useState<Boolean>(true); //default false
 
-  const correctOtp = (val: string) => {
-    // this function is run when the reciever enters correct code
-    // from the server
-    console.log("Code is corectly input by reciever.", val);
-
-    //turn loader off when done
-    setIsLoading(false);
-  };
-
-  const handleOtpInput = (val: string) => {
-    if (val.length == 6) {
-      setIsLoading(true);
-      // setOtp(val);
-      correctOtp(val);
-    }
-  };
+ 
+ 
 
   const callForOTPToServer = ()=>{
     
     //function to call server for the otp
     //and save that otp in state
 
-    // setOtpFromServer(000000)
+    // setOtpFromServer(999999)
   }
 
   useEffect(()=>{
     setIsLoading(true);
 
+    
     callForOTPToServer();
     
     setIsLoading(false);
@@ -45,13 +35,17 @@ const MainSendPart = () => {
 
   return (
     <>
-    { !isLoading ? 
+    { !isLoading ?
+          (!isConnected ?
       <section className="shadow-2xl flex-2 gap-4 rounded flex flex-col justify-center items-center font-header font-semibold text-4xl bg-[#2E2B2C] label-sub-text-color h-96">
         <label>The Connection Code</label>
 
         <OTP otp={otpFromServer} />
         <CountDown setIsCallingForNewOtp={setIsCallingForNewOtp}/>
       </section>
+
+      :
+      <SendFiles />)
 
       :
       <section className="shadow-2xl flex-2 rounded gap-6 flex flex-col justify-center items-center font-header font-semibold text-4xl bg-[#2E2B2C] label-sub-text-color h-96">

@@ -1,20 +1,25 @@
 import { useState } from "react";
+import toast from "react-hot-toast";
 import OTP from "./OTP";
 import useGetContextData from "../../hooks/useGetContextData";
+import RecieveFile from "./recieveFile/RecieveFile";
 
 const MainRecievePart = () => {
   const context = useGetContextData();
   const { otpFromServer, setOtpFromServer } = context;
   const [isLoading, setIsLoading] = useState<Boolean>(false);
   const [isCleared, setIsCleared] = useState<Boolean>(false);
+  const [isConnected, setIsConnected] = useState<Boolean>(true); //false
 
   const correctOtp = (val: string) => {
     // this function is run when the reciever enters correct code
     // from the server
     console.log("Code is corectly input by reciever.", val);
+    toast.success("Correct code!");
   };
 
   const handleOtpInput = (val: string) => {
+    console.log("val: ", val);
     if (val.length == 6) {
       if (otpFromServer == Number(val)) {
         setIsLoading(true);
@@ -23,23 +28,36 @@ const MainRecievePart = () => {
         //turn loader off when done
         setIsLoading(false);
       } else {
-        setIsCleared((prev) => !prev);
+        setIsCleared(true);
       }
     }
   };
 
+  const reciveFile = ()=>{
+    //this is the function that contains the code for
+    //reciveing data from sender and
+    //showing it here for download
+
+    setIsConnected(true);
+  }
+
   return (
     <>
       {!isLoading ? (
-        <section className="shadow-2xl flex-2 gap-9 rounded flex flex-col justify-center items-center font-header font-semibold text-4xl bg-[#2E2B2C] label-sub-text-color h-96">
-          <label>Enter Connection Code</label>
+        !isConnected ? (
+          <section className="shadow-2xl flex-2 gap-9 rounded flex flex-col justify-center items-center font-header font-semibold text-4xl bg-[#2E2B2C] label-sub-text-color h-96">
+            <label>Enter Connection Code</label>
 
-          <OTP
-            length={6}
-            isCleared={isCleared}
-            onChange={(val) => handleOtpInput(val)}
-          />
-        </section>
+            <OTP
+              length={6}
+              isCleared={isCleared}
+              setIsCleared={setIsCleared}
+              onChange={(val) => handleOtpInput(val)}
+            />
+          </section>
+        ) : (
+          <RecieveFile />
+        )
       ) : (
         <section className="shadow-2xl flex-2 rounded gap-6 flex flex-col justify-center items-center font-header font-semibold text-4xl bg-[#2E2B2C] label-sub-text-color h-96">
           <label>Connecting...</label>
