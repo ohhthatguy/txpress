@@ -17,6 +17,7 @@ import filesRelated from "./filesRelated/filesRelated";
 
   app.listen(6969, () => {
     console.log(`{Server is active at port ${6969}`);
+    console.log("a small change")
   });
 
 
