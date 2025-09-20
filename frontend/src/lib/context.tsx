@@ -1,12 +1,15 @@
 import { createContext, useState } from "react";
 import type { CardType } from "./types";
 import type { ReactNode } from "react";
+import { Socket } from "socket.io-client";
 
 interface GlobalContextType {
   cardData: CardType | null;
   setCardData: React.Dispatch<React.SetStateAction<CardType | null>>;
-    otpFromServer: number;
+  otpFromServer: number;
   setOtpFromServer: React.Dispatch<React.SetStateAction<number>>;
+  socket: Socket | undefined,
+  setSocket: React.Dispatch<React.SetStateAction<Socket | undefined>>;
 }
 
 export const GlobalContext = createContext<GlobalContextType | null>(null);
@@ -25,8 +28,12 @@ export const GlobalContextProvider = ({
 
   const [otpFromServer, setOtpFromServer] = useState<number>(999999);
 
+  const [socket, setSocket] = useState<Socket | undefined>(undefined);
+
   return (
-    <GlobalContext.Provider value={{ cardData, setCardData,otpFromServer, setOtpFromServer }}>
+    <GlobalContext.Provider
+      value={{ cardData, setCardData, otpFromServer, setOtpFromServer,socket, setSocket }}
+    >
       {children}
     </GlobalContext.Provider>
   );

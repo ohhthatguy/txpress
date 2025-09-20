@@ -1,16 +1,34 @@
-import  express from "express"
-import type { Application, Request, Response } from "express";
+import express from "express";
+import http from "http";
+import { Server, Socket } from "socket.io";
+
+import textRelated from "./textRelated/textRelated";
+import passwordRelated from "./passwordRelated/passwordRelated";
+import filesRelated from "./filesRelated/filesRelated";
 
 
-const app: Application = express();
-const PORT = process.env.PORT || 4000;
+  const app = express();
+  const httpServer = http.createServer(app);
+  const io = new Server(httpServer, {
+    cors: {
+      origin: "*",
+    },
+  });
 
-// Middleware
-app.use(express.json());
+  app.listen(6969, () => {
+    console.log(`{Server is active at port ${6969}`);
+  });
+
+
+  const handleConnectionEntry = (socket: Socket) =>{
+    console.log("Connected socket in backend")
+    textRelated(io, socket);
+    passwordRelated(io, socket);
+    filesRelated(io, socket);
+  }
 
 
 
-// Start Server
-app.listen(PORT, () => {
-  console.log(`✅ Server running on http://localhost:${PORT}`);
-});
+//main code
+io.on("connection", handleConnectionEntry);
+

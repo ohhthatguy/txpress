@@ -1,11 +1,14 @@
 import { useState } from "react";
+import useGetContextData from "../../../hooks/useGetContextData";
 
 const TEXT = () => {
 
+    const context = useGetContextData();
+  const {socket} = context;
     const [textData, setTextData] = useState<string>('')
 
     const handleTextSend = ()=>{
-        console.log(textData)
+        socket?.emit("recieve:text", textData )
     }
 
   return (
