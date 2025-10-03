@@ -1,11 +1,10 @@
 import { useEffect, useState } from "react";
+import { Socket } from "socket.io-client";
 
-const CountDown = ({
-  setIsCallingForNewOtp,
-}: {
-  setIsCallingForNewOtp: React.Dispatch<React.SetStateAction<Boolean>>;
-}) => {
+const CountDown = ({setIsLoading, socket} : {setIsLoading:React.Dispatch<React.SetStateAction<Boolean>>, socket:Socket}) => {
   const [time, setTime] = useState(60);
+
+
 
   useEffect(() => {
     if (time <= 0) return;
@@ -27,10 +26,19 @@ const CountDown = ({
   const handleRegenerate = () => {
     //code to server to start the regenration
 
+    setIsLoading(true);
+
+    socket?.emit("generate-otp")
+
+    setIsLoading(false);
+
+
     //after this start the timer again
     setTime(60);
-    setIsCallingForNewOtp((prev) => !prev);
+ 
   };
+
+
 
   return (
     <>

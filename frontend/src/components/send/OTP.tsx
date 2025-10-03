@@ -11,7 +11,10 @@ const OTP = ({ otp }: { otp: number }) => {
           >
             {e}{" "}
           </div>
-        ))}
+          
+        )) 
+      
+      }
     </div>
   );
 };

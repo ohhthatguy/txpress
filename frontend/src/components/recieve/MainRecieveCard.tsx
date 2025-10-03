@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import OTP from "./OTP";
 import useGetContextData from "../../hooks/useGetContextData";
@@ -6,41 +6,68 @@ import RecieveFile from "./recieveFile/RecieveFile";
 
 const MainRecievePart = () => {
   const context = useGetContextData();
-  const { otpFromServer, setOtpFromServer } = context;
+  const { socket } = context;
   const [isLoading, setIsLoading] = useState<Boolean>(false);
   const [isCleared, setIsCleared] = useState<Boolean>(false);
-  const [isConnected, setIsConnected] = useState<Boolean>(true); //false
+  const [isConnected, setIsConnected] = useState<Boolean>(false); //false
 
-  const correctOtp = (val: string) => {
-    // this function is run when the reciever enters correct code
+  const checkOtp = (val: string) => {
+    // this function is run to check if the reciever enters correct code
     // from the server
-    console.log("Code is corectly input by reciever.", val);
-    toast.success("Correct code!");
+
+    socket?.emit("checks-otp-reciever-side", Number(val), socket.id)
+    // socket?.on("wrong-otp-entered", ()=>{
+    //   toast.error("Wrong OTP Enteredss!")
+    //   setIsCleared(true)
+    // })
+    
   };
+
+  useEffect(() => {
+  if (!socket) return;
+
+  const handleWrongOtp = () => {
+    toast.error("Wrong OTP Entered!");
+    setIsCleared(true);
+  };
+
+  socket.on("wrong-otp-entered", handleWrongOtp);
+
+  return () => {
+    socket.off("wrong-otp-entered", handleWrongOtp);
+  };
+}, [socket]); 
+
 
   const handleOtpInput = (val: string) => {
     console.log("val: ", val);
+
     if (val.length == 6) {
-      if (otpFromServer == Number(val)) {
+    
         setIsLoading(true);
 
-        correctOtp(val);
+        checkOtp(val);
         //turn loader off when done
         setIsLoading(false);
-      } else {
-        setIsCleared(true);
-      }
+      
     }
+    
+    // else {
+    //     setIsCleared(true);
+    //   }
   };
 
-  const reciveFile = ()=>{
-    //this is the function that contains the code for
-    //reciveing data from sender and
-    //showing it here for download
 
+
+  socket?.on("room-joined", ()=>{
     setIsConnected(true);
-  }
+  })
 
+  
+  
+  
+
+ 
   return (
     <>
       {!isLoading ? (

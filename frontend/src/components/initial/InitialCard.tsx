@@ -1,11 +1,9 @@
-import { useEffect } from "react";
 import useGetContextData from "../../hooks/useGetContextData";
-import { io, Socket } from "socket.io-client";
-import toast from "react-hot-toast";
+import SidePart from "../../common/sidePart/SidePart";
 
 const InitialCard = () => {
   const context = useGetContextData();
-  const { cardData, setCardData, socket, setSocket } = context;
+  const { setCardData } = context;
 
   const handleSendClick = () => {
     const CardTypeSend = {
@@ -27,31 +25,9 @@ const InitialCard = () => {
     setCardData(CardTypeRecieve);
   };
 
-  useEffect(() => {
-    if (!socket) {
-      try {
-        const newSocket: Socket = io("https://192.168.18.76:3000");
-        newSocket.on("connect", ()=>{
-            toast.success("socket connected!");
-        })
-        setSocket(newSocket);
-
-      } catch (e) {
-        console.log("Error in connecting to socket: ", e);
-      }
-    }
-  }, [socket]);
-
   return (
     <div className="rounded flex p-3 bg-white-color text-black-color">
-      <section className="flex-1 ">
-        <h1 className="font-header font-semibold text-4xl">
-          {cardData?.cardHeader}
-        </h1>
-        <h4 className="font-medium label-sub-text-color leading-tight mt-3">
-          {cardData?.cardContent}
-        </h4>
-      </section>
+      <SidePart />
 
       <section className="gap-5  flex flex-2 h-96">
         <div

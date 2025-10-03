@@ -1,25 +1,42 @@
+import { useEffect } from "react";
+import useGetContextData from "../../hooks/useGetContextData";
+import { io, Socket } from "socket.io-client";
+import toast from "react-hot-toast";
 
-import useGetContextData from "../../hooks/useGetContextData"
 import MainRecievePart from "./MainRecieveCard";
+import SidePart from "../../common/sidePart/SidePart";
 
 const RecieveCard = () => {
   const context = useGetContextData();
-  const { cardData, setCardData } = context;
+  const { socket, setSocket } = context;
+
+  useEffect(() => {
+    if (!socket) {
+      try {
+        const newSocket: Socket = io("http://localhost:6969");
+        newSocket.on("connect", () => {
+          toast.success("socket receieve connected!");
+          console.log("xonnected receieve socket in fronted", newSocket.id);
+          setSocket(newSocket);
+        });
+
+        return () => {
+          newSocket.disconnect(); // disconnect socket
+          newSocket.off(); // remove all listeners
+        };
+      } catch (e) {
+        console.log("Error in connecting to socket: ", e);
+      }
+    }
+  }, []);
+
   return (
-   <div className="rounded flex p-3 bg-white-color text-black-color">
-        <section className="flex-1 ">
-        <h1 className="font-header font-semibold text-4xl">
-          {cardData?.cardHeader}
-        </h1>
-        <h4 className="font-medium label-sub-text-color leading-tight mt-3">
-          {cardData?.cardContent}
-        </h4>
-      </section>
+    <div className="rounded flex p-3 bg-white-color text-black-color">
+      <SidePart />
 
       <MainRecievePart />
-     
     </div>
-  )
-}
+  );
+};
 
-export default RecieveCard
+export default RecieveCard;

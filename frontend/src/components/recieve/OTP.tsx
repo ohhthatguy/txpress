@@ -49,15 +49,15 @@ const OTP = React.memo(
         }
       });
       inputsRef.current[0]?.focus();
-      toast.error("Wrong Code Entered!");
+     
       setIsCleared(false);
     };
 
     useEffect(() => {
         if(isCleared){
       clearAllInput();
-
         }
+
     }, [isCleared]);
 
     console.log(isCleared)

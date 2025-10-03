@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import {  useState } from "react";
 import OTP from "./OTP";
 import CountDown from "./CountDown";
 import useGetContextData from "../../hooks/useGetContextData";
@@ -7,31 +7,19 @@ import SendFiles from "./MainSend/SendFiles";
 
 const MainSendPart = () => {
   const context = useGetContextData();
-  const {otpFromServer, setOtpFromServer} = context;
+  const {otpFromServer, setOtpFromServer, socket} = context;
 
   const [isLoading, setIsLoading] = useState<Boolean>(false);
-  const [isCallingForNewOtp, setIsCallingForNewOtp] = useState<Boolean>(false);
-  const [isConnected, setIsConnected] = useState<Boolean>(true); //default false
+  const [isConnected, setIsConnected] = useState<Boolean>(false); //default false
+
+
+ socket?.on("generated-otp", (code)=> setOtpFromServer(code));
+ socket?.on("room-joined", ()=>{
+  setIsConnected(true)
+ })
+ 
 
  
- 
-
-  const callForOTPToServer = ()=>{
-    
-    //function to call server for the otp
-    //and save that otp in state
-
-    // setOtpFromServer(999999)
-  }
-
-  useEffect(()=>{
-    setIsLoading(true);
-
-    
-    callForOTPToServer();
-    
-    setIsLoading(false);
-  },[isCallingForNewOtp])
 
   return (
     <>
@@ -39,9 +27,8 @@ const MainSendPart = () => {
           (!isConnected ?
       <section className="shadow-2xl flex-2 gap-4 rounded flex flex-col justify-center items-center font-header font-semibold text-4xl bg-[#2E2B2C] label-sub-text-color h-96">
         <label>The Connection Code</label>
-
-        <OTP otp={otpFromServer} />
-        <CountDown setIsCallingForNewOtp={setIsCallingForNewOtp}/>
+        {otpFromServer && <OTP otp={otpFromServer} />}
+        <CountDown setIsLoading={setIsLoading} socket={socket!}/>
       </section>
 
       :
