@@ -1,19 +1,19 @@
 import { Server, Socket } from "socket.io";
+import type { SharedDataType } from "../lib/types";
 
 
 const passwordRelated = (io:Server, socket:Socket) => {
 
-    const sendpassword = ()=>{
-        console.log("send password");
+    const sendpassword = (pswrd:SharedDataType)=>{
+        console.log("send password: ", pswrd);
+        socket.broadcast.emit("send-data->reciever", pswrd);
     }
 
     
-    const recievepassword = ()=>{
-        console.log("recieve password");
-    }
+    
 
  socket.on("send:password", sendpassword);
- socket.on("recieve:password", recievepassword);
+
 
 }
 

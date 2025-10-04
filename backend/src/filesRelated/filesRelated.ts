@@ -1,20 +1,14 @@
 import { Server, Socket } from "socket.io";
+import { SharedDataType } from "../lib/types";
 
+const filesRelated = (io: Server, socket: Socket) => {
+  const sendfiles = (data: SharedDataType) => {
+    console.log("send files", data);
 
-const filesRelated = (io:Server, socket:Socket) => {
+    socket.broadcast.emit("send-data->reciever", data);
+  };
 
-    const sendfiles = ()=>{
-        console.log("send files");
-    }
+  socket.on("send:files", sendfiles);
+};
 
-    
-    const recievefiles = ()=>{
-        console.log("recieve files");
-    }
-
- socket.on("send:files", sendfiles);
- socket.on("recieve:files", recievefiles);
-
-}
-
-export default filesRelated
+export default filesRelated;

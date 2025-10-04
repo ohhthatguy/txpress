@@ -1,11 +1,20 @@
-import {useState} from 'react'
+import { useState} from 'react'
+import useGetContextData from '../../../hooks/useGetContextData'
+import type { SharedDataType } from '../../../lib/types';
 
 const PASSWORD = () => {
+  const {socket} = useGetContextData();
  const [pswrdData, setPswrdData] = useState<string>('')
+
  
      const handlePswrdSend = ()=>{
-         console.log(pswrdData)
+      const data:SharedDataType = {type: "PASSWORD", data: pswrdData, time: new Date().toLocaleTimeString()}
+        socket?.emit("send:password", data);
      }
+
+   
+
+    
  
    return (
      <div className=" p-2 grid w-10/12">

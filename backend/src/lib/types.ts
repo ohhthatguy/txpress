@@ -1,9 +1,3 @@
-export type CardType = {
-    cardHeader: string,
-    cardContent: string,
-    cardStatus: "send" | "recieve" | "initial",
-}
-
 export type SharedFileType = {
     name: string,
     size: number,

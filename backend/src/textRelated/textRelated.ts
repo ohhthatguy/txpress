@@ -1,19 +1,21 @@
 import { Server, Socket } from "socket.io";
+import type { SharedDataType } from "../lib/types";
 
 
 const textRelated = (io:Server, socket:Socket) => {
 
-    const sendText = ()=>{
-        console.log("send text");
+    const sendText = (text:SharedDataType)=>{
+         console.log(" text from sender: ", text);
+
+         socket.broadcast.emit("send-data->reciever", text);
+      
     }
 
     
-    const recieveText = (text:string)=>{
-        console.log("recieved text: ", text);
-    }
+ 
 
  socket.on("send:text", sendText);
- socket.on("recieve:text", recieveText);
+
 
 }
 

@@ -1,5 +1,6 @@
 import { useState } from "react";
 import useGetContextData from "../../../hooks/useGetContextData";
+import type { SharedDataType } from "../../../lib/types";
 
 const TEXT = () => {
 
@@ -8,7 +9,11 @@ const TEXT = () => {
     const [textData, setTextData] = useState<string>('')
 
     const handleTextSend = ()=>{
-        socket?.emit("recieve:text", textData )
+
+      const data:SharedDataType = {type: "TEXT", data: textData, time: new Date().toLocaleTimeString()};
+      
+
+        socket?.emit("send:text", data);
     }
 
   return (
