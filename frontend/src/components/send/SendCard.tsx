@@ -1,14 +1,17 @@
-import { useEffect } from "react";
+import { useEffect,useState } from "react";
 import useGetContextData from "../../hooks/useGetContextData";
 import { io, Socket } from "socket.io-client";
 import toast from "react-hot-toast";
 
 import SidePart from "../../common/sidePart/SidePart";
 import MainSendPart from "./MainSendPart";
+import Modal from "../../common/modal/Modal";
 
 const SendCard = () => {
   const context = useGetContextData();
-  const { socket, setSocket,setOtpFromServer } = context;
+  const { socket, setSocket } = context;
+    const [isConnectionLost, setIsConnectionLost] = useState<Boolean>(false);
+  
 
   useEffect(() => {
     if (!socket) {
@@ -38,6 +41,13 @@ const SendCard = () => {
       <SidePart />
 
       <MainSendPart />
+
+       {isConnectionLost && (
+        <Modal
+          text="Reciever Is Disconnected. Please return to homepage!"
+          setIsConnectionLost={setIsConnectionLost}
+        />
+      )}
     </div>
   );
 };

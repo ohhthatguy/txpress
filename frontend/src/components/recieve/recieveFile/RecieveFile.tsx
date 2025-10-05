@@ -2,12 +2,17 @@ import { useEffect, useState } from "react";
 import useGetContextData from "../../../hooks/useGetContextData";
 import type { SharedDataType } from "../../../lib/types";
 import toast from "react-hot-toast";
+import { GoDownload } from "react-icons/go";
+import { TiClipboard } from "react-icons/ti";
+import Modal from "../../../common/modal/Modal";
 
 const RecieveFile = () => {
   const context = useGetContextData();
   const { socket } = context;
 
   const [recievedData, setRecievedData] = useState<SharedDataType[]>([]);
+  const [isDownloading, setIsDownloading] = useState<Boolean>(false);
+  const [isConnectionLost, setIsConnectionLost] = useState<Boolean>(false);
 
   useEffect(() => {
     if (!socket) return;
@@ -18,43 +23,54 @@ const RecieveFile = () => {
     };
 
     socket?.on("send-data->reciever", handleRecievedData);
+    socket?.on("communication-lost", () => setIsConnectionLost(true));
 
     return () => {
       socket.off("send-data->reciever", handleRecievedData);
     };
   }, [socket]);
 
-  console.log(recievedData);
+  const handleDownload = async (dataFile: SharedDataType) => {
+    if (dataFile.type !== "FILE") return;
+    if (typeof dataFile.data === "string") return;
 
-  // const recieveData = [{fileData: "data1"},{fileData: "data2"},{fileData: "data3"}];
+    setIsDownloading(true);
 
-  const handleRecieveClick = (e: any) => {
-    // console.log(e.fileData);
+    const file = dataFile.data;
+
+    try {
+      const res = await fetch(file.url);
+      const blob = await res.blob(); // convert response to blob
+
+      const link = document.createElement("a");
+      link.href = URL.createObjectURL(blob);
+      link.download = file.name; // suggested filename
+      document.body.appendChild(link);
+      link.click();
+      link.remove();
+
+      URL.revokeObjectURL(link.href); // clean up
+    } catch (err) {
+      console.error("Download failed:", err);
+      toast.error("Download Failed");
+    }
+
+    setIsDownloading(false);
   };
 
- const handleDownload = async (dataFile: SharedDataType) => {
-  if (dataFile.type !== "FILE") return;
-  if (typeof dataFile.data === "string") return;
+  const handleCopyText = (textFile: SharedDataType) => {
+    if (typeof textFile.data !== "string") return;
 
-  const file = dataFile.data;
-
-  try {
-    const res = await fetch(file.url);
-    const blob = await res.blob(); // convert response to blob
-
-    const link = document.createElement("a");
-    link.href = URL.createObjectURL(blob);
-    link.download = file.name; // suggested filename
-    document.body.appendChild(link);
-    link.click();
-    link.remove();
-
-    URL.revokeObjectURL(link.href); // clean up
-  } catch (err) {
-    console.error("Download failed:", err);
-  }
-};
-
+    navigator.clipboard
+      .writeText(textFile.data)
+      .then(() => {
+        toast.success("Copied to clipboard!");
+      })
+      .catch((err) => {
+        console.error("Failed to copy: ", err);
+        toast.error("failed to copy");
+      });
+  };
 
   return (
     <section className="shadow-2xl  flex-2 gap-9 rounded flex flex-col justify-center items-center font-header font-semibold text-4xl bg-[#2E2B2C] label-sub-text-color h-96">
@@ -62,42 +78,75 @@ const RecieveFile = () => {
 
       <div className=" w-10/12 overflow-y-auto p-2">
         {recievedData.map((e, index) =>
-         (e.type == "PASSWORD" && typeof e.data === "string") ?
-           (
-            <input
-              type="password"
-              className="h-5/11 w-full bg-white-color mt-2 p-2"
-              onClick={() => handleRecieveClick(e)}
-              key={index}
-              value={e.data}
-              disabled
-            />
-          ) : ((e.type == "FILE" && typeof e.data !== "string")) ? 
-          (
+          e.type == "PASSWORD" && typeof e.data === "string" ? (
+            <div className="relative ">
+              <input
+                type="password"
+                className="h-5/11 w-full bg-white-color mt-2 p-2 pr-4"
+                key={index}
+                value={e.data}
+                readOnly
+              />
+              <div
+                className="hover:cursor-pointer text-md  text-black absolute bottom-4 right-0"
+                onClick={() => handleCopyText(e)}
+              >
+                <TiClipboard />
+              </div>
+            </div>
+          ) : e.type == "FILE" && typeof e.data !== "string" ? (
             <div
-              className="h-5/11 w-full bg-white-color mt-2 p-2 d-flex"
+              className="h-full w-full bg-white-color mt-2 p-2 flex gap-2"
               key={index}
             >
-                <div>{e.data.name}</div>
-                <div>
-                    <button onClick={()=> handleDownload(e)}>{e.data.size}byte</button>
+              <div className="flex-2 ">{e.data.name}</div>
+
+              <div className=" flex gap-2">
+                <h3>{(e.data.size / 1024 / 1024).toPrecision(2)}MB</h3>
+                {isDownloading ? (
+                  <div className="  flex justify-end">
+                    <div className="w-7 h-7 border-4 border-gray-300 border-t-blue-500 rounded-full animate-spin"></div>
+                  </div>
+                ) : (
+                  <button
+                    className="hover:cursor-pointer text-md  text-black"
+                    onClick={() => handleDownload(e)}
+                  >
+                    <GoDownload />
+                  </button>
+                )}
+              </div>
+            </div>
+          ) : (
+            e.type == "TEXT" &&
+            typeof e.data === "string" && (
+              <div className="relative ">
+                <div
+                  className="h-5/11 bg-white-color mt-2 p-2 pr-4 "
+                  
+                  key={index}
+                >
+                  {e.data}
                 </div>
 
-                
-            </div>
-          ) :
-           (e.type == "TEXT" && typeof e.data === "string") &&
-            (
-              <div
-                className="h-5/11 bg-white-color mt-2 p-2"
-                onClick={() => handleRecieveClick(e)}
-                key={index}
-              >
-                {e.data}
+                <div
+                  className="hover:cursor-pointer text-md  text-black absolute bottom-2 right-0"
+                  onClick={() => handleCopyText(e)}
+                >
+                  <TiClipboard />
+                </div>
               </div>
             )
+          )
         )}
       </div>
+
+      {isConnectionLost && (
+        <Modal
+          text="Sender Is Disconnected. Please Download the contents and return to homepage!"
+          setIsConnectionLost={setIsConnectionLost}
+        />
+      )}
     </section>
   );
 };

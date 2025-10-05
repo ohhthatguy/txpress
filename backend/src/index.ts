@@ -4,7 +4,6 @@ import { Server, Socket } from "socket.io";
 
 
 import cors from "cors";
-
 import { handleUpload, upload } from "./filesRelated/FilesUpload";
 
 
@@ -15,6 +14,7 @@ import textRelated from "./textRelated/textRelated";
 import passwordRelated from "./passwordRelated/passwordRelated";
 import filesRelated from "./filesRelated/filesRelated";
 import OTP from "./OTP/OTP";
+import type { OTPStoreType } from "./lib/types";
 
 const app = express();
 const httpServer = http.createServer(app);
@@ -25,7 +25,7 @@ const io = new Server(httpServer, {
   },
 });
 
-let otpStore: { senderId: string; generatedCode: number }[] = [];
+let otpStore: OTPStoreType[] = [];
 
 const handleConnectionEntry = (socket: Socket) => {
   console.log("Connected socket in backend");
@@ -39,7 +39,21 @@ const handleConnectionEntry = (socket: Socket) => {
     console.log("socket disconnected: ", socket.id);
     console.log("reason of disconnect: ", reason);
 
-    otpStore = otpStore.filter((e) => e.senderId !== socket.id);
+    
+    const index = otpStore.findIndex((e)=> socket.id == e.senderId || socket.id == e.recieverId);
+    console.log(index)
+
+      if(index==-1){
+        console.log("no index found for disconnect");
+        return;
+      } 
+
+    const roomId = otpStore[index].roomId;
+    socket.to(roomId!).emit("communication-lost"); // notifying room joined
+    
+
+  
+    otpStore.splice(index,1);
 
     console.log("list: ", otpStore);
   });

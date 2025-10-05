@@ -1,6 +1,7 @@
 import { useState } from "react";
 import useGetContextData from "../../../hooks/useGetContextData";
 import type { SharedFileType } from "../../../lib/types";
+import toast from "react-hot-toast";
 
 const FILES = () => {
   const { socket } = useGetContextData();
@@ -8,11 +9,10 @@ const FILES = () => {
 
   const [fileData, setFileData] = useState<File | null>(null);
 
-  const handleFileSend = async() => {
+  const handleFileSend = async () => {
+    if (!fileData) return;
 
-    if(!fileData) return;
-
-    setIsLoading(true)
+    setIsLoading(true);
 
     console.log(fileData);
 
@@ -22,26 +22,30 @@ const FILES = () => {
     try {
       const res = await fetch("http://localhost:7000/upload", {
         method: "POST",
-        body: formData, 
+        body: formData,
       });
 
       if (!res.ok) {
+        toast.error("Upload Failed!")
+
         throw new Error(`Upload failed: ${res.statusText}`);
       }
 
-      const result : SharedFileType = await res.json();
+      const result: SharedFileType = await res.json();
 
-     socket?.emit("send:files",  {type: "FILE", data: result, time: new Date().toLocaleTimeString()})
+      socket?.emit("send:files", {
+        type: "FILE",
+        data: result,
+        time: new Date().toLocaleTimeString(),
+      });
 
       console.log("Uploaded file:", result);
-      
-
     } catch (err) {
       console.error("Error uploading file:", err);
+        toast.error("Upload Failed!")
+
     }
-    setIsLoading(false)
-
-
+    setIsLoading(false);
   };
 
   return (
@@ -60,9 +64,15 @@ const FILES = () => {
       </fieldset>
 
       <div className=" text-right">
-        <button className="btn btn-active" onClick={handleFileSend}>
-          Send
-        </button>
+        {isLoading ? (
+          <div className="  flex justify-end">
+            <div className=" w-7 h-7 border-4 border-gray-300 border-t-blue-500 rounded-full animate-spin"></div>
+          </div>
+        ) : (
+          <button className="btn btn-active" onClick={handleFileSend}>
+            Send
+          </button>
+        )}
       </div>
     </div>
   );

@@ -1,11 +1,13 @@
 import { Server, Socket } from "socket.io";
+import type { OTPStoreType } from "../lib/types";
 
-const OTP = (io: Server, socket: Socket, otpStore:{ senderId: string; generatedCode: number }[]) => {
+const OTP = (io: Server, socket: Socket, otpStore:OTPStoreType[]) => {
   const generateOTP = (senderId: string) => {
     console.log("generate OTP");
 
-    const code = Math.floor(Math.random() * 1000000);
-    otpStore.push({ senderId, generatedCode: code });
+    const code = Number(Math.floor(Math.random() * 1000000).toString().padStart(6, "0"));
+    
+    otpStore.push({ senderId, generatedCode: code, senderStatus:"Connected", recieverStatus:"Not Connected Yet" });
     console.log(otpStore);
     socket.emit("generated-otp", code);
   };
@@ -13,7 +15,7 @@ const OTP = (io: Server, socket: Socket, otpStore:{ senderId: string; generatedC
   const checkOTP = (val:Number, recieverId: string) => {
     console.log("checkOTP");
 
-    const matched = otpStore?.find(e => e.generatedCode == val)
+    const matched = otpStore?.find(e => e.generatedCode == val && e.recieverStatus == "Not Connected Yet"); 
 
     if(matched){
 
@@ -24,8 +26,11 @@ const OTP = (io: Server, socket: Socket, otpStore:{ senderId: string; generatedC
 
         io.to(roomId).emit("room-joined"); // notifying room joined
 
-        otpStore = otpStore.filter(e => e.generatedCode !== val)
+        const index = otpStore.findIndex(e=> e.senderId == matched.senderId);
+        otpStore[index] = {...otpStore[index], recieverId, roomId, recieverStatus:"Connected" }
 
+        // otpStore = otpStore.filter(e => e.generatedCode !== val)
+        console.log(otpStore)
 
     }else{
         socket.emit("wrong-otp-entered");

@@ -35,6 +35,8 @@ const RecieveCard = () => {
       <SidePart />
 
       <MainRecievePart />
+
+      
     </div>
   );
 };
