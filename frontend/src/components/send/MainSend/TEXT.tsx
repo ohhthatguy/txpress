@@ -11,9 +11,8 @@ const TEXT = () => {
     const handleTextSend = ()=>{
 
       const data:SharedDataType = {type: "TEXT", data: textData, time: new Date().toLocaleTimeString()};
-      
-
         socket?.emit("send:text", data);
+        setTextData("")
     }
 
   return (

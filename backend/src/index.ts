@@ -49,7 +49,7 @@ const handleConnectionEntry = (socket: Socket) => {
       } 
 
     const roomId = otpStore[index].roomId;
-    socket.to(roomId!).emit("communication-lost"); // notifying room joined
+    socket.to(roomId!).emit("communication-lost"); // notifying room joined prob here!!!
     
 
   

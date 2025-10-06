@@ -28,7 +28,7 @@ const CountDown = ({setIsLoading, socket} : {setIsLoading:React.Dispatch<React.S
 
     setIsLoading(true);
 
-    socket?.emit("generate-otp")
+    socket?.emit("generate-otp", socket.id)
 
     setIsLoading(false);
 

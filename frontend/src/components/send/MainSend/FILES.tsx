@@ -40,11 +40,14 @@ const FILES = () => {
       });
 
       console.log("Uploaded file:", result);
-    } catch (err) {
+     
+    } catch (err:any) {
       console.error("Error uploading file:", err);
-        toast.error("Upload Failed!")
+        toast.error(`Upload Failed! ${err?.message}`)
 
     }
+
+    setFileData(null)
     setIsLoading(false);
   };
 
@@ -60,7 +63,7 @@ const FILES = () => {
           }}
           className="file-input file-input-neutral w-full"
         />
-        <label className="label px-1 ">Max size 2MB</label>
+        {/* <label className="label px-1 ">Max size 2MB</label> */}
       </fieldset>
 
       <div className=" text-right">

@@ -26,6 +26,9 @@ const SendCard = () => {
           setSocket(newSocket);
         });
 
+        newSocket?.on("communication-lost", () => setIsConnectionLost(true));
+
+
         return () => {
           newSocket.disconnect(); // disconnect socket
           newSocket.off(); // remove all listeners

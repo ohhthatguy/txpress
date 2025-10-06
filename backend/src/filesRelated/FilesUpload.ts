@@ -32,10 +32,6 @@ const streamUpload = (buffer: Buffer, folderName: string): Promise<string> => {
 export const handleUpload = async (req: Request, res: Response) => {
     if(!req.file) return;
 
-    console.log("Cloud name:", process.env.CLOUD_NAME);
-console.log("API key:", process.env.CLOUD_API_KEY);
-console.log("API secret:", process.env.CLOUD_API_SECRET);
-
   try {
     const secureUrl = await streamUpload(req.file.buffer, "txpress");
      const responseData = {name: req.file.originalname, size: req.file.size, url: secureUrl };

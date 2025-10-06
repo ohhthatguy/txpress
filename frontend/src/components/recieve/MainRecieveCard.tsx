@@ -31,10 +31,25 @@ const MainRecievePart = () => {
     setIsCleared(true);
   };
 
+  const handleExpiredOtp = () => {
+    toast.error("OTP Expired!");
+    setIsCleared(true);
+  };
+
   socket.on("wrong-otp-entered", handleWrongOtp);
+   socket?.on("otp-expired->reciever",handleExpiredOtp)
+
+  socket?.on("room-joined", ()=>{
+    setIsConnected(true);
+  })
+
 
   return () => {
     socket.off("wrong-otp-entered", handleWrongOtp);
+   socket.off("otp-expired->reciever",handleExpiredOtp);
+   socket.off("room-joined");
+
+
   };
 }, [socket]); 
 
@@ -59,10 +74,7 @@ const MainRecievePart = () => {
 
 
 
-  socket?.on("room-joined", ()=>{
-    setIsConnected(true);
-  })
-
+  
   
   
   

@@ -25,6 +25,9 @@ const RecieveFile = () => {
     socket?.on("send-data->reciever", handleRecievedData);
     socket?.on("communication-lost", () => setIsConnectionLost(true));
 
+   
+
+
     return () => {
       socket.off("send-data->reciever", handleRecievedData);
     };

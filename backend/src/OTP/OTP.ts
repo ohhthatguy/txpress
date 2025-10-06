@@ -2,22 +2,35 @@ import { Server, Socket } from "socket.io";
 import type { OTPStoreType } from "../lib/types";
 
 const OTP = (io: Server, socket: Socket, otpStore:OTPStoreType[]) => {
+
   const generateOTP = (senderId: string) => {
     console.log("generate OTP");
 
-    const code = Number(Math.floor(Math.random() * 1000000).toString().padStart(6, "0"));
+    const code = Number(Math.floor(Math.random() * 1000000).toString().padStart(6, "9"));
+
+
+    const index = otpStore.findIndex((e)=> e.senderId == senderId);
     
-    otpStore.push({ senderId, generatedCode: code, senderStatus:"Connected", recieverStatus:"Not Connected Yet" });
+    if(index !== -1 ){
+      otpStore[index] = {...otpStore[index], generatedCode:code, otpGeneratedTime:Date.now()};
+    }else{
+    otpStore.push({ senderId, generatedCode: code, senderStatus:"Connected", recieverStatus:"Not Connected Yet", otpGeneratedTime: Date.now() });
+    }
+    
     console.log(otpStore);
     socket.emit("generated-otp", code);
   };
 
   const checkOTP = (val:Number, recieverId: string) => {
     console.log("checkOTP");
-
     const matched = otpStore?.find(e => e.generatedCode == val && e.recieverStatus == "Not Connected Yet"); 
 
     if(matched){
+
+      if((Date.now() - matched.otpGeneratedTime) > 59000){ //if code exceeds after 1 min reject it
+        socket.emit("otp-expired->reciever")
+        return; 
+      } 
 
         const roomId = `room-${matched.senderId}-${recieverId}`;
 
@@ -29,7 +42,6 @@ const OTP = (io: Server, socket: Socket, otpStore:OTPStoreType[]) => {
         const index = otpStore.findIndex(e=> e.senderId == matched.senderId);
         otpStore[index] = {...otpStore[index], recieverId, roomId, recieverStatus:"Connected" }
 
-        // otpStore = otpStore.filter(e => e.generatedCode !== val)
         console.log(otpStore)
 
     }else{

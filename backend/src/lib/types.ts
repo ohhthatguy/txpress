@@ -17,4 +17,5 @@ export type OTPStoreType = {
   roomId?: string;
   senderStatus?: "Connected" | "Disconnected" | "Not Connected Yet";
   recieverStatus?: "Connected" | "Disconnected" | "Not Connected Yet";
+  otpGeneratedTime: number
 };

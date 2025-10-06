@@ -10,6 +10,7 @@ const PASSWORD = () => {
      const handlePswrdSend = ()=>{
       const data:SharedDataType = {type: "PASSWORD", data: pswrdData, time: new Date().toLocaleTimeString()}
         socket?.emit("send:password", data);
+        setPswrdData("")
      }
 
    
