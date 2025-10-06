@@ -62,7 +62,7 @@ const handleConnectionEntry = (socket: Socket) => {
 //main code
 io.on("connection", handleConnectionEntry);
 
-httpServer.listen(6969, () => {
+httpServer.listen(process.env.PORT_SOCKET, () => {
   console.log(`Server is active at port ${6969}`);
 });
 
@@ -77,7 +77,7 @@ app.use(cors({
 
 app.use("/upload", upload.single("file"), handleUpload);
 
-app.listen(7000, () => {
+app.listen(process.env.PORT_MERN, () => {
   console.log("mern sever is at this, 7000");
 });
 
