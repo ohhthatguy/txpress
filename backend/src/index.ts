@@ -17,10 +17,15 @@ import OTP from "./OTP/OTP";
 import type { OTPStoreType } from "./lib/types";
 
 const app = express();
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 const httpServer = http.createServer(app);
+
+const FRONTEND_URL = process.env.CLIENT_URL || "http://localhost:5173";
+
 const io = new Server(httpServer, {
   cors: {
-    origin: ["http://localhost:5173"],
+    origin: [FRONTEND_URL],
     methods: ["GET", "POST", "PUT", "DELETE"],
   },
 });
@@ -62,14 +67,14 @@ const handleConnectionEntry = (socket: Socket) => {
 //main code
 io.on("connection", handleConnectionEntry);
 
-httpServer.listen(process.env.PORT_SOCKET, () => {
-  console.log(`Server is active at port ${6969}`);
-});
+const PORT = process.env.PORT || 4000;
+
+
 
 
 // Allow your frontend origin
 app.use(cors({
-  origin: "http://localhost:5173", // your frontend URL
+  origin: [FRONTEND_URL], // your frontend URL
   methods: ["GET","POST","PUT","DELETE"],
  
 }));
@@ -77,8 +82,8 @@ app.use(cors({
 
 app.use("/upload", upload.single("file"), handleUpload);
 
-app.listen(process.env.PORT_MERN, () => {
-  console.log("mern sever is at this, 7000");
-});
 
+httpServer.listen(PORT, () => {
+  console.log(`Server is active at port ${PORT}`);
+});
 

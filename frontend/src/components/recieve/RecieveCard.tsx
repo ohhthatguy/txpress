@@ -13,7 +13,7 @@ const RecieveCard = () => {
   useEffect(() => {
     if (!socket) {
       try {
-        const newSocket: Socket = io("http://localhost:6969");
+        const newSocket: Socket = io(import.meta.env.VITE_BACKEND_URL || "http://localhost:6969");
         newSocket.on("connect", () => {
           toast.success("socket receieve connected!");
           console.log("xonnected receieve socket in fronted", newSocket.id);
