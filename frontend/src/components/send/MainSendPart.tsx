@@ -2,7 +2,6 @@ import {  useState } from "react";
 import OTP from "./OTP";
 import CountDown from "./CountDown";
 import useGetContextData from "../../hooks/useGetContextData";
-import toast from "react-hot-toast";
 import SendFiles from "./MainSend/SendFiles";
 
 const MainSendPart = () => {
