@@ -83,10 +83,10 @@ if (!PORT) throw new Error("PORT is not defined");
     })
   );
 
-  app.get("/", (req, res) => {
+ app.get("/", (req, res) => {
     console.log(`Backend(app) is active at port ${PORT}`);
-
-  });
+    res.send("✅ Backend is running successfully on Railway!");
+});
 
   app.use("/upload", upload.single("file"), handleUpload);
 
