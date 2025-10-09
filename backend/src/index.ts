@@ -74,6 +74,10 @@ app.use(
   })
 );
 
+app.get("/", (req, res) => {
+  res.send(" Backend is running successfully on Railway!");
+});
+
 app.use("/upload", upload.single("file"), handleUpload);
 
 httpServer.listen(PORT, () => {
