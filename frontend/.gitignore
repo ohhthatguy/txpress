@@ -19,7 +19,7 @@ build/
 
 # Vite / Frontend
 .vite/
-vite-env.d.ts
+
 
 # Logs
 logs/
