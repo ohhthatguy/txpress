@@ -28,9 +28,7 @@
     },
   });
 
-  console.log("Starting backend...");
-console.log("PORT:", process.env.PORT);
-console.log("CLIENT_URL:", process.env.CLIENT_URL);
+  
 
   let otpStore: OTPStoreType[] = [];
 
@@ -86,11 +84,12 @@ if (!PORT) throw new Error("PORT is not defined");
   );
 
   app.get("/", (req, res) => {
-    res.send(" Backend is running successfully on Railway!");
+    console.log(`Backend(app) is active at port ${PORT}`);
+
   });
 
   app.use("/upload", upload.single("file"), handleUpload);
 
   httpServer.listen(PORT,"0.0.0.0", () => {
-    console.log(`Server is active at port ${PORT}`);
+    console.log(`Server(httpserver) is active at port ${PORT}`);
   });
