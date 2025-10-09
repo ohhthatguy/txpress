@@ -25,14 +25,4 @@ vite-env.d.ts
 logs/
 *.log
 
-# OS files
-.DS_Store
-Thumbs.db
 
-# Optional: IDEs
-.idea/
-.vscode/
-
-# Optional: Mac/Linux swap files
-*.swp
-*.swo
