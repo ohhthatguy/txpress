@@ -73,7 +73,9 @@ console.log("CLIENT_URL:", process.env.CLIENT_URL);
   //main code
   io.on("connection", handleConnectionEntry);
 
-  const PORT = process.env.PORT || 4000;
+  const PORT = Number(process.env.PORT) || 4000;
+
+if (!PORT) throw new Error("PORT is not defined");
 
   // Allow your frontend origin
   app.use(
@@ -89,6 +91,6 @@ console.log("CLIENT_URL:", process.env.CLIENT_URL);
 
   app.use("/upload", upload.single("file"), handleUpload);
 
-  httpServer.listen(PORT, () => {
+  httpServer.listen(PORT,"0.0.0.0", () => {
     console.log(`Server is active at port ${PORT}`);
   });
