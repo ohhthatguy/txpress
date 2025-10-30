@@ -54,7 +54,7 @@ const FILES = () => {
   };
 
   return (
-    <div className=" p-2 grid w-10/12">
+    <div className=" p-2 grid  w-full sm:w-10/12">
       <fieldset className="fieldset ">
         <input
           type="file"
@@ -74,7 +74,7 @@ const FILES = () => {
             <div className=" w-7 h-7 border-4 border-gray-300 border-t-blue-500 rounded-full animate-spin"></div>
           </div>
         ) : (
-          <button className="btn btn-active" onClick={handleFileSend}>
+          <button className="btn btn-active btn-sm" onClick={handleFileSend}>
             Send
           </button>
         )}

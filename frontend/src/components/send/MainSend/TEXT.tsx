@@ -16,7 +16,7 @@ const TEXT = () => {
     }
 
   return (
-    <div className=" p-2 grid w-10/12">
+    <div className=" p-2 grid w-full sm:w-10/12">
       <textarea
         className="p-2 textarea textarea-lg textarea-neutral text-white w-full"
         
@@ -27,7 +27,7 @@ const TEXT = () => {
         
       />
       <div className=" text-right">
-        <button onClick={handleTextSend} className="btn btn-active">Send</button>
+        <button onClick={handleTextSend} className="btn btn-active btn-sm">Send</button>
       </div>
     </div>
   );

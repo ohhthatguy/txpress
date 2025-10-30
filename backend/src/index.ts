@@ -23,7 +23,7 @@
 
   const io = new Server(httpServer, {
     cors: {
-      origin: [FRONTEND_URL],
+      origin: [FRONTEND_URL, "http://localhost:5173"],
       methods: ["GET", "POST", "PUT", "DELETE"],
     },
   });
@@ -71,14 +71,14 @@
   //main code
   io.on("connection", handleConnectionEntry);
 
-  const PORT = Number(process.env.PORT) || 4000;
+  const PORT = Number(process.env.PORT) || 6969;
 
 if (!PORT) throw new Error("PORT is not defined");
 
   // Allow your frontend origin
   app.use(
     cors({
-      origin: [FRONTEND_URL], // your frontend URL
+      origin: [FRONTEND_URL, "http://localhost:5173"], // your frontend URL
       methods: ["GET", "POST", "PUT", "DELETE"],
     })
   );
@@ -94,3 +94,4 @@ if (!PORT) throw new Error("PORT is not defined");
     console.log(`Server(httpserver) is active at port ${PORT}`);
   });
 
+  console.log("Frontend URl: ", FRONTEND_URL)

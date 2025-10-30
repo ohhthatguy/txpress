@@ -26,20 +26,22 @@ const InitialCard = () => {
   };
 
   return (
-    <div className="rounded flex p-3 bg-white-color text-black-color">
+    <div className="rounded md:flex p-3  bg-white-color text-black-color">
       <SidePart />
 
-      <section className="gap-5  flex flex-2 h-96">
+      <section className="gap-5  flex flex-col sm:flex-row  flex-2 h-72 md:h-96">
         <div
           onClick={handleSendClick}
-          className=" transition-all shadow-2xl  hover:cursor-pointer hover:scale-95 scale-100 flex-1 rounded flex justify-center items-center font-header font-semibold text-4xl bg-[#2E2B2C] label-sub-text-color  "
+          className=" transition-all shadow-2xl  hover:cursor-pointer hover:scale-95 scale-100 flex-1 rounded flex justify-center items-center font-header font-semibold  text-style-sendRecieve bg-[#2E2B2C] label-sub-text-color  "
         >
+          {/* text-4xl */}
           SEND
         </div>
         <div
           onClick={handleRecieveClick}
-          className="transition-all shadow-2xl  hover:cursor-pointer hover:scale-95 scale-100 flex-1 rounded flex justify-center items-center font-header font-semibold text-4xl label-sub-text-color bg-[#2E2B2C] "
+          className="transition-all shadow-2xl  hover:cursor-pointer hover:scale-95 scale-100 flex-1 rounded flex justify-center items-center font-header font-semibold text-style-sendRecieve label-sub-text-color bg-[#2E2B2C] "
         >
+          {/* text-4xl */}
           RECIEVE
         </div>
       </section>

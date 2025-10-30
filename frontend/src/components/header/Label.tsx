@@ -1,16 +1,23 @@
+import AnimatingSlide from "./AnimatingSlide";
+
 const Label = () => {
+  // text-9xl
+  // text-4xl
   return (
     <>
-      <section className="flex gap-5 py-10">
-        <div className="font-header  text-9xl body-white-color font-extrabold">
+      <section className="  gap-5 py-8">
+        
+        <div className="font-header text-style-mainHeader  body-white-color font-extrabold">
           THE TExPRESS
         </div>
-        <div className="font-header font-bold text-4xl pt-3 rounded label-sub-text-color">
+        {/* <div className="font-header text-style-mainHeader-subTitle font-bold bred pt-3 rounded label-sub-text-color">
           <div>TEXT</div>
           <div>FILES</div>
 
           <div>PASSWORD</div>
-        </div>
+        </div> */}
+
+         <AnimatingSlide />
       </section>
     </>
   );

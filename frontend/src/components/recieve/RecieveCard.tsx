@@ -12,6 +12,7 @@ const RecieveCard = () => {
 
   useEffect(() => {
     if (!socket) {
+      
       try {
         const newSocket: Socket = io(import.meta.env.VITE_BACKEND_URL || "http://localhost:6969");
         newSocket.on("connect", () => {
@@ -31,7 +32,7 @@ const RecieveCard = () => {
   }, []);
 
   return (
-    <div className="rounded flex p-3 bg-white-color text-black-color">
+    <div className="rounded  flex flex-col sm:flex-row p-3 bg-white-color text-black-color">
       <SidePart />
 
       <MainRecievePart />

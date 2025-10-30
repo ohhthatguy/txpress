@@ -1,10 +1,12 @@
 @import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Oswald:wght@200..700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Oswald:wght@200..700&family=Roboto+Flex:opsz,wght@8..144,100..1000&display=swap');
 
 @import "tailwindcss";
 
 @plugin "daisyui";
 @theme{
     --font-header: Oswald, "sans-serif";
+    --font-subTitle: Roboto Flex, "sans-serif";
 }
 
 .text-black-color{
@@ -23,14 +25,13 @@
    background-color: #EAEAEA;
 }
 
+.bg-footer-color{
+    background-color: #223F48;
+}
+
 .text-white-color{
     color: #EAEAEA;
 }
-
-
-
-
-
 
 .btn-color{
     color: #EA7060;
@@ -46,3 +47,67 @@
     border: 1px solid green;
 }
 
+
+.text-style-mainHeader{
+    font-size: clamp(2rem, 10vw, 9rem);
+    line-height: normal;
+}
+
+.text-style-mainHeader-subTitle{
+    font-size: clamp(2rem, 2.5vw, 4rem);
+
+}
+
+.text-style-sideBar-Title{
+    font-size: clamp(2rem, 1.5vw, 9rem);
+    line-height: 2rem;
+}
+
+.text-style-sideBar-subTitle{
+    font-size: clamp(1rem, 1.5vw, 4rem);
+}
+
+.text-style-sendRecieve{
+    font-size: clamp(1rem, 3vw, 4rem);
+}
+
+.text-style-gettingStarted-title{
+  font-size: clamp(2rem, 1.5vw, 9rem);
+    line-height: 2rem;
+}
+
+.text-style-gettingStarted-subTitle{
+  font-size: clamp(1rem, 1.5vw, 4rem);
+}
+
+.animation-headerSubtitle{
+    animation: animatingHeaderSlide 4s linear infinite ;
+    user-select: none;
+}
+
+
+
+.marquee {
+  overflow: hidden;
+  width: 100%;
+  white-space: nowrap;
+}
+
+.marquee__track {
+  display: inline-flex;
+  gap: 3rem; /* spacing between items */
+  animation: animatingHeaderSlide 1s linear infinite;
+}
+
+.animation-headerSubtitle:hover{
+    animation-play-state: paused;
+}
+
+@keyframes animatingHeaderSlide {
+    0%{
+ transform: translateX(0);
+    }
+    100%{
+        transform: translateX(-100%);
+    }
+}

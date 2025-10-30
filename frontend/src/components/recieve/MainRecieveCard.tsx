@@ -84,8 +84,8 @@ const MainRecievePart = () => {
     <>
       {!isLoading ? (
         !isConnected ? (
-          <section className="shadow-2xl flex-2 gap-9 rounded flex flex-col justify-center items-center font-header font-semibold text-4xl bg-[#2E2B2C] label-sub-text-color h-96">
-            <label>Enter Connection Code</label>
+          <section className="shadow-2xl sm:flex-2 gap-9 rounded flex flex-col justify-center items-center font-header font-semibold text-4xl bg-[#2E2B2C] label-sub-text-color h-96">
+            <label className="text-2xl sm:text-4xl">Enter Connection Code</label>
 
             <OTP
               length={6}

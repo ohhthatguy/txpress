@@ -7,7 +7,7 @@ const OTP = ({ otp }: { otp: number }) => {
         .map((e: string, idx: number) => (
           <div
             key={idx}
-            className="w-12 h-12 text-center border rounded focus:outline-none focus:ring focus:ring-blue-400"
+            className=" w-10 sm:w-12 h-12 text-center border rounded focus:outline-none focus:ring focus:ring-blue-400"
           >
             {e}{" "}
           </div>

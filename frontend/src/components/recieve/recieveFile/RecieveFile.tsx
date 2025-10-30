@@ -76,10 +76,10 @@ const RecieveFile = () => {
   };
 
   return (
-    <section className="shadow-2xl  flex-2 gap-9 rounded flex flex-col justify-center items-center font-header font-semibold text-4xl bg-[#2E2B2C] label-sub-text-color h-96">
-      <label>Recieve Data</label>
+    <section className="shadow-2xl  sm:flex-2 gap-9 rounded flex flex-col justify-center items-center font-header font-semibold text-4xl bg-[#2E2B2C] label-sub-text-color h-96">
+      <label className="text-2xl sm:text-4xl">Recieved Data</label>
 
-      <div className=" w-10/12 overflow-y-auto p-2">
+      <div className=" sm:w-10/12 overflow-y-auto p-2">
         {recievedData.map((e, index) =>
           e.type == "PASSWORD" && typeof e.data === "string" ? (
             <div className="relative ">
@@ -99,13 +99,13 @@ const RecieveFile = () => {
             </div>
           ) : e.type == "FILE" && typeof e.data !== "string" ? (
             <div
-              className="h-full w-full bg-white-color mt-2 p-2 flex gap-2"
+              className="h-full overflow-hidden bg-white-color mt-2 p-2 flex gap-2 "
               key={index}
             >
-              <div className="flex-2 ">{e.data.name}</div>
+              <div className="w-12/12 overflow-ellipsis break-words  ">{e.data.name} <h3>({(e.data.size / 1024 / 1024).toPrecision(2)}MB)</h3></div>
 
-              <div className=" flex gap-2">
-                <h3>{(e.data.size / 1024 / 1024).toPrecision(2)}MB</h3>
+              <div className="w-4/12 text-right">
+                {/* <h3>{(e.data.size / 1024 / 1024).toPrecision(2)}MB</h3> */}
                 {isDownloading ? (
                   <div className="  flex justify-end">
                     <div className="w-7 h-7 border-4 border-gray-300 border-t-blue-500 rounded-full animate-spin"></div>

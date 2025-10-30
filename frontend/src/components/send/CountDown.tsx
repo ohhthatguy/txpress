@@ -1,8 +1,7 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { Socket } from "socket.io-client";
 
-const CountDown = ({setIsLoading, socket} : {setIsLoading:React.Dispatch<React.SetStateAction<Boolean>>, socket:Socket}) => {
-  const [time, setTime] = useState(60);
+const CountDown = ({setIsLoading, socket, time, setTime} : {setIsLoading:React.Dispatch<React.SetStateAction<Boolean>>, socket:Socket, time:number, setTime: React.Dispatch<React.SetStateAction<number>>}) => {
 
 
 
@@ -30,11 +29,7 @@ const CountDown = ({setIsLoading, socket} : {setIsLoading:React.Dispatch<React.S
 
     socket?.emit("generate-otp", socket.id)
 
-    setIsLoading(false);
-
-
-    //after this start the timer again
-    setTime(60);
+  
  
   };
 

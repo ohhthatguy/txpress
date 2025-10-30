@@ -1,8 +1,9 @@
 import LandingPage from "./components/LandingPage";
 
+
 const App = () => {
   return (
-    <div className="  px-10 bg-body-color">
+    <div className="   sm:mx-10  ">
       <LandingPage />
     </div>
   );

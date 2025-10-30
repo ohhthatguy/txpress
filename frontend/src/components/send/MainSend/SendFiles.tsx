@@ -15,10 +15,10 @@ const SendFiles = () => {
         setSelectedOtion(e)
     }
 
-
+//text-4xl for text-password-file navbar
 
   return (
-     <section className="shadow-2xl  flex-2 gap-9  rounded font-header font-semibold text-4xl bg-[#2E2B2C] label-sub-text-color h-96">
+     <section className="shadow-2xl  sm:flex-2 gap-9  rounded font-header font-semibold  bg-[#2E2B2C] label-sub-text-color h-96">
           <div className="flex justify-end">
             {
                 selectOption.map((e:selectOptionType,index:number)=>(
@@ -27,7 +27,7 @@ const SendFiles = () => {
             }
           </div>
 
-            <div className=" h-5/6 grid place-items-center">
+            <div className=" h-5/6  grid place-items-center">
                 {
                     selectedOption=="TEXT" ? <TEXT /> :
                     selectedOption=="PASSWORD" ? <PASSWORD /> : <FILES />

@@ -18,7 +18,7 @@ const PASSWORD = () => {
     
  
    return (
-     <div className=" p-2 grid w-10/12">
+     <div className=" p-2 grid  w-full sm:w-10/12">
 
 
 <label className="input input-neutral w-full">
@@ -50,7 +50,7 @@ const PASSWORD = () => {
 
        
        <div className=" text-right">
-         <button onClick={handlePswrdSend} className="btn btn-active">Send</button>
+         <button onClick={handlePswrdSend} className="btn btn-active btn-sm">Send</button>
        </div>
      </div>
    );

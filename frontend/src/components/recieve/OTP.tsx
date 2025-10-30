@@ -75,7 +75,7 @@ const OTP = React.memo(
             ref={(el) => {
               if (el) inputsRef.current[idx] = el;
             }}
-            className="w-12 h-12 text-center border rounded focus:outline-none focus:ring focus:ring-blue-400"
+            className="w-10 sm:w-12 h-12 text-center border rounded focus:outline-none focus:ring focus:ring-blue-400"
           />
         ))}
       </div>

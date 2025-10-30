@@ -1,8 +1,8 @@
-
+import { IoIosArrowRoundBack } from "react-icons/io";
 const NavigationBtn = () => {
    
   return (
-    <a href="/">Home</a>
+    <a href="/"><IoIosArrowRoundBack className="text-2xl"/></a>
   )
 }
 
