@@ -29,32 +29,36 @@ function Footer() {
 
   return (
     <>
-      <div className=" flex flex-col gap-5  bg-footer-color">
-        
-        <h1 className="text-style-gettingStarted-title font-header my-3 ">Getting Started:</h1>
+      <div className=" flex flex-col gap-5 mt-9  bg-footer-color ">
+        {/* font-header  */}
+        <h1 className="text-style-gettingStarted-title font-poppins my-3 ">Getting Started:</h1>
+        {/* <div className="bred"></div> */}
 
-        <div className="flex gap-16 flex-col">
+        <div className="flex gap-16 flex-col p-3">
         {getStartedData?.map((e, index) => (
 
-          <section className={`md:flex gap-5 ${(index%2===0) ? "flex-row-reverse" : "flex-row"}`} key={index}>
+          <section className={`md:flex footer-animation  gap-5 ${(index%2===0) ? "flex-row-reverse " : "flex-row-reverse bg-white-color"}`} key={index}>
             <div className="flex-1">
-              <h2 className="text-style-gettingStarted-title font-header">{e.title}</h2>
-              <h4 className="text-style-gettingStarted-subTitle font-subTitle">{e.subTitle}</h4>
+              <h2 className={` font-poppins text-style-gettingStarted-title font-bold ${(index%2===0) ? "p-2" : "text-black-color p-2"}`}>{e.title}</h2>
+              <div className="bred"></div>
+              <h4 className={` font-inter text-style-gettingStarted-subTitle ${(index%2===0) ? "p-2" : "label-sub-text-color font-semibold p-2"}`}>{e.subTitle}</h4>
             </div>
 
             <div className={`flex-1 `}>
                 <img src={e.image} className=" object-fill h-full w-full"  />
             </div>
+
+         
           </section>
           
         ))}
         </div>
 
 
-        <section className=" text-center  body-white-color font-extrabold">
-          <span className="text-style-gettingStarted-title font-header"> Just Connect and Share resources! </span>{" "}
+        <section className=" text-center  body-white-color bg-body-color">
+          <span className=" font-poppins text-xl "> Just Connect and Share resources! </span>{" "}
           <br />
-          <span className="text-style-gettingStarted-subTitle font-subTitle">
+          <span className=" font-inter label-sub-text-color ">
           No need to go through headache of signing and logging in just to get
           some small piece of data!</span>
         </section>

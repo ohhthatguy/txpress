@@ -26,7 +26,7 @@ const InitialCard = () => {
   };
 
   return (
-    <div className="rounded md:flex p-3  bg-white-color text-black-color">
+    <div className="rounded md:flex p-3  bg-white-color  text-black-color">
       <SidePart />
 
       <section className="gap-5  flex flex-col sm:flex-row  flex-2 h-72 md:h-96">

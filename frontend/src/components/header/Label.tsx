@@ -5,10 +5,10 @@ const Label = () => {
   // text-4xl
   return (
     <>
-      <section className="  gap-5 py-8">
+      <section className="  ">
         
-        <div className="font-header text-style-mainHeader  body-white-color font-extrabold">
-          THE TExPRESS
+        <div className="font-header  text-style-mainHeader   body-white-color font-extrabold">
+           TExPRESS
         </div>
         {/* <div className="font-header text-style-mainHeader-subTitle font-bold bred pt-3 rounded label-sub-text-color">
           <div>TEXT</div>

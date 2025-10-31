@@ -14,10 +14,12 @@ const SidePart = () => {
         <h4 className="font-medium label-sub-text-color text-style-sideBar-subTitle leading-tight mt-3 flex-1">
           {cardData?.cardContent}
         </h4>
-
-        <div >
+{
+ cardData?.cardStatus!== "initial" &&  <div>
           <NavigationBtn />
         </div>
+}
+       
       </section>
 
   )
